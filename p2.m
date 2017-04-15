@@ -1,3 +1,5 @@
+% kth sf2943 tidsan17 (time series analysis) project problem 2 (parameter estimation).
+
 clear;
 model = arima('Constant', 0, 'AR', {1.3, -0.65}, 'Variance', 280);
 
