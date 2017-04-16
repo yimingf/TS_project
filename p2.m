@@ -4,7 +4,7 @@ clc, clear;
 model = arima('Constant', 0, 'AR', {1.3, -0.65}, 'Variance', 280);
 
 m = 50; % number of samples.
-n = 100; % size of data.
+n = 200; % size of data.
 % rng('default');
 Y = cell(1, m);
 param_mle = zeros(2, m);
@@ -55,8 +55,10 @@ grid on;
 figure(3)
 foo = (1: n);
 plot(foo, Y{1}, foo, Y_predict_mle{1})
+title('Prediction of ML estimation');
 
 figure(4)
 foo = (1: n);
 plot(foo, Y{1}, foo, Y_predict_yule{1})
+title('Prediction of Yule-Walker estimation');
 
