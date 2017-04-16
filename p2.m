@@ -4,7 +4,7 @@ clc, clear;
 model = arima('Constant', 0, 'AR', {1.3, -0.65}, 'Variance', 280);
 
 m = 50; % number of samples.
-n = 500; % size of data.
+n = 100; % size of data.
 rng('default');
 Y = cell(1, m);
 param_mle = zeros(2, m);
@@ -19,6 +19,13 @@ for i=1:m
   param_yule(:, i) = d(2:3)';
 end
 
+Y_predict = cell(1, m);
+for i=1:m
+    P = prediction(param_mle(:, i), Y{i});
+    Y_predict{i} = P;
+end
+
+
 figure(1)
 scatter(param_mle(1, :), param_mle(2, :));
 title('Scatter plot of ML estimation');
@@ -28,3 +35,8 @@ figure(2)
 scatter(param_yule(1, :), param_yule(2, :));
 title('Scatter plot of Yule-Walker estimation');
 grid on;
+
+figure(3)
+foo = [1: n];
+plot(foo, Y{1}, foo, Y_predict{1})
+
