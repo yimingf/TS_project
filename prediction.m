@@ -10,6 +10,7 @@ for i=1:len
     else
         p = param(1) * data(i-1) + param(2) * data(i-2);
     end
+    % P(i) = p + randn * sqrt(280);
     P(i) = p;
 end
 end
