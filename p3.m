@@ -1,39 +1,6 @@
 % kth sf2943 tidsan17 (time series analysis) project problem 3 (prediction).
 
 clc, clear;
-<<<<<<< HEAD
-% a) Predictions on \textbf{AR(2)} model.
-model = arima('Constant', 0, 'AR', {1.3, -0.65}, 'Variance', 280);
-
-m = 50;
-n = 300;
-
-Y = zeros(n, m);
-param_2 = zeros(2, m);
-param_10 = zeros(10, m); % AR(10)
-
-for i=1:m
-  Y(:, i) = simulate(model, n);
-
-  mle = arma_mle(Y(:, i), 2, 0);
-  param_2(:, i) = mle.ar;
-
-  mle = arma_mle(Y(:, i), 10, 0);
-  param_10(:, i) = mle.ar;
-end
-
-predict_2   = zeros(n, m);
-predict_10  = zeros(n, m);
-K = 3;
-for i=1:m
-  predict_2 (:, i) = prediction(param_2(:, i), Y(:, i), K, 0);
-  predict_10(:, i) = prediction(param_10(:, i), Y(:, i), K, 0);
-end
-
-error_2 =mean(mean((Y(1+K:n, :)-predict_2 (1+K:n, :)).^2))
-error_10=mean(mean((Y(1+K:n, :)-predict_10(1+K:n, :)).^2))
-
-=======
 % % a) Predictions on \textbf{AR(2)} model.
 % model = arima('Constant', 0, 'AR', {1.3, -0.65}, 'Variance', 280);
 % 
@@ -66,7 +33,6 @@ error_10=mean(mean((Y(1+K:n, :)-predict_10(1+K:n, :)).^2))
 % error_2 =mean(mean((Y(1+K:n, :)-predict_2 (1+K:n, :)).^2))
 % error_10=mean(mean((Y(1+K:n, :)-predict_10(1+K:n, :)).^2))
 % 
->>>>>>> origin/master
 % % b) Prediction on \textbf{AR(1)} model.
 % model = arima('Constant', 0, 'AR', {0.8}, 'Variance', 1);
 % 
@@ -91,13 +57,8 @@ error_10=mean(mean((Y(1+K:n, :)-predict_10(1+K:n, :)).^2))
 % predict_ma = zeros(n, m);
 % K = 3;
 % for i=1:m
-<<<<<<< HEAD
 %   predict_ar(:, i) = prediction(param_ar(:, i), Y(:, i), K);
 %   model = arima('Constant', 0, 'MA', param_ma(:, i), 'Variance', 1); % innovation algorithm
-=======
-%   predict_ar(:, i) = prediction(param_ar(:, i), Y(:, i), K, c);
-%   model = arima('Constant', 0, 'MA', param_ma(:, i), 'Variance', 1);
->>>>>>> origin/master
 %   predict_ma(:, i) = simulate(model, n);
 % end
 % 
