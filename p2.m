@@ -5,6 +5,8 @@ model = arima('Constant', 0, 'AR', {1.3, -0.65}, 'Variance', 280);
 
 m = 50; % number of samples.
 n = 200; % size of data.
+K = 1;
+c = 0;
 % rng('default');
 Y = zeros(n, m);
 param_mle = zeros(2, m);
@@ -25,8 +27,8 @@ Y_predict_yule = zeros(n, m);
 Y_residual_mle = zeros(n, m);
 Y_residual_yule = zeros(n, m);
 for i=1:m
-  Y_predict_mle(:, i) = prediction(param_mle(:, i), Y(:, i));
-  Y_predict_yule(:, i) = prediction(-param_yule(:, i), Y(:, i));
+  Y_predict_mle(:, i) = prediction(param_mle(:, i), Y(:, i), K, c);
+  Y_predict_yule(:, i) = prediction(-param_yule(:, i), Y(:, i), K, c);
   Y_residual_mle(:, i) = residual(param_mle(:, i), Y(:, i));
   Y_residual_yule(:, i) = residual(-param_yule(:, i), Y(:, i));
 end
@@ -36,6 +38,10 @@ error_mle = mean(mean((Y-Y_predict_mle).^2));
 error_yule = mean(mean((Y-Y_predict_yule).^2));
 var_residual_mle = mean(var(Y_residual_mle));
 var_residual_yule = mean(var(Y_residual_yule));
+
+% kstest for residuals are uncorrelated and same dist as Z_t
+[h_mle, p_mle] = kstest(Y_residual_mle/sqrt(var_residual_mle));
+[h_yule, p_yule] = kstest(Y_residual_yule/sqrt(var_residual_yule));
 
 figure(1)
 scatter(param_mle(1, :), param_mle(2, :));
