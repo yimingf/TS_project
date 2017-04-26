@@ -53,17 +53,15 @@ end % for
 %{
   now we have the deseasonalized data with trends removed.
   try to fit with AR/MA/ARMA models.
-  since the first 5 ACF points are beyond the confidence level we try AR(5) first.
 %}
 
-mle = arma_mle(y, 5, 0);
-% mle = arma_mle(y, 6, 0); % not suitable.
+[p, q] = order_selection(y, 10, 10);
 
 %{
   for validation of the model we could apply residual analysis.
 
   we have finished analysing dataset 1.
-  it contains a small ascending trend, a seasonal compoment with period 12 (does the dataset come from a monthly report?), a mean value of around 180, and an autoregression (AR(5)) component.
+  it contains a small ascending trend, a seasonal compoment with period 12 (does the dataset come from a monthly report?), a mean value of around 180, and an (ARMA(3, 3)) component.
 
   we will now move on to dataset 2.
 %}
@@ -97,7 +95,8 @@ sst = [repmat(sst, nc, 1); sst(1:rm)];
 sBar = mean(sst); % for centering
 sst = sst-sBar;
 
-dt = x-sst; % now we have deseasonalized data. 
+dt = x-sst; % now we have deseasonalized data.
+% use 'armax' tool and AICC statistics to select the orders.
 mle = arma_mle(dt, 1, 0);
 
 %{
@@ -142,11 +141,11 @@ autocorr(m, h) % steadily decreasing ACF plot.
 xt = x-m;
 % plot(foo, xt) % the trends are removed successfully.
 autocorr(xt, h) % try AR(p) model.
-mle = arma_mle(xt, 2, 2); % ARMA(2, 2) sufficiently fits the model.
+[p, q] = order_selection(xt, 10, 10); % p = 4, q = 3
 
 %{
   we have finished analysing dataset 4.
-  it contains an ascending trend, a mean value around 1.09 and an ARMA(2, 2) model.
+  it contains an ascending trend, a mean value around 1.09 and an ARMA(4, 3) model.
 
   we will proceed to dataset 5.
 %}
@@ -165,3 +164,22 @@ m = movmean(x, T);
 % autocorr(m, h)
 xt = x-m;
 plot(foo, xt) % the trend was successfully removed
+[p, q] = order_selection(xt, 10, 10); % p = 3, q = 1
+
+%{
+  we have finished analysing dataset 5.
+  it contains an increasing-then-decreasing trend, a mean value and an ARMA(3, 1) model.
+
+  we will now proceed to dataset 6.
+%}
+
+clc, clear
+x = load('./all_series/Data_series_6.txt');
+[N, ~] = size(x);
+
+foo = [1:N];
+plot(foo, x)
+
+h = 100;
+x = x-mean(x);
+autocorr(x, h) % zeros at 2+. is it an MA(q) model?
