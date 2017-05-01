@@ -182,4 +182,4 @@ plot(foo, x)
 
 h = 100;
 x = x-mean(x);
-autocorr(x, h) % zeros at 2+. is it an MA(q) model?
+[p, q] = order_selection(x, 10, 10);
