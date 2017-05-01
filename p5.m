@@ -16,3 +16,19 @@ autocorr(x, h)
 T = 12;
 m = movmean(x, T);
 xt = x-m;
+
+sidx = cell(T,1);
+for i = 1:T
+ sidx{i,1} = i:T:N;
+end
+
+sst = cellfun(@(x) mean(xt(x)),sidx);
+nc = floor(N/T); % no. complete years
+rm = mod(N, T); % no. extra months
+sst = [repmat(sst, nc, 1); sst(1:rm)];
+
+sBar = mean(sst); % for centering
+sst = sst-sBar;
+
+dt = x-sst; % now we have deseasonalized data.
+y = x-m-sst; % the model is now MA(2).
