@@ -1,0 +1,2 @@
+% kth sf2943 tidsan17 (time series analysis) project problem 5 (chosen data analysis).
+% used 'CO2 (ppm) mauna loa, 1965-1980' data from https://datamarket.com/data/set/22v1/co2-ppm-mauna-loa-1965-1980#!ds=22v1&display=line
