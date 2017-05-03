@@ -1,9 +1,10 @@
 % kth sf2943 tidsan17 (time series analysis) project problem 2 (parameter estimation).
 
 clc, clear;
+addpath ./src
 model = arima('Constant', 0, 'AR', {1.3, -0.65}, 'Variance', 280);
 
-m = 50; % number of samples.
+m = 500; % number of samples.
 n = 200; % size of data.
 K = 1;
 c = 0;
@@ -34,7 +35,9 @@ for i=1:m
 end
 
 % one step mean-squared prediction error
+em = mean((Y-Y_predict_mle).^2);
 error_mle = mean(mean((Y-Y_predict_mle).^2));
+ey = mean((Y-Y_predict_yule).^2);
 error_yule = mean(mean((Y-Y_predict_yule).^2));
 var_residual_mle = mean(var(Y_residual_mle));
 var_residual_yule = mean(var(Y_residual_yule));
@@ -62,4 +65,19 @@ figure(4)
 foo = (1: n);
 plot(foo, Y(:, 1), foo, Y_predict_yule(:, 1))
 title('Prediction of Yule-Walker estimation');
+
+figure(5)
+histogram(em-280, m/20);
+xlabel('prediction error');
+ylabel('frequency');
+title('histogram of MLE prediction error');
+
+figure(6)
+histogram(em-280, m/20);
+xlabel('prediction error');
+ylabel('frequency');
+title('histogram of Yule-Walker prediction error');
+
+figure(7)
+autocorr(Y_residual_mle(:, randi(200), 50));
 

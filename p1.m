@@ -1,6 +1,7 @@
 % kth sf2943 tidsan17 (time series analysis) project problem 1 (white noise)
 
 clear;
+addpath ./src
 % initiate size of data and lag
 n = 500; % size n
 h = 40; % lag

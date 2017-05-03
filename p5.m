@@ -32,3 +32,10 @@ sst = sst-sBar;
 
 dt = x-sst; % now we have deseasonalized data.
 y = x-m-sst; % the model is now MA(2).
+
+subplot(2,1,1)
+autocorr(y)
+subplot(2,1,2)
+parcorr(y)
+
+EstMdl = estimate(arima(0,0,2),y);
