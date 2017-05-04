@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><Services version="1.0" xmlns="http://www.citrix.com/ServiceRecord"><Service type="store"><SRID>798963609</SRID><Name>KTH Applications</Name><Address>https://storefront.ug.kth.se/Citrix/KTHApplications/discovery</Address></Service></Services>
